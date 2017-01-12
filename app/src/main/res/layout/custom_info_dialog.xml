@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="@null">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivInfoBig"
+        android:background="@drawable/background_dialog_info"
+        android:layout_marginTop="-40dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp">
+
+        <com.blackbeltcoder.nunut.component.CustomTextView
+            android:id="@+id/tvTitle"
+            style="@style/txt_20_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="45dp"
+            android:text="INFORMATION"
+            app:textStyle="bold"/>
+
+        <com.blackbeltcoder.nunut.component.CustomTextView
+            android:id="@+id/tvDescription"
+            style="@style/txt_18_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tvTitle"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Description"/>
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/separator_margin"
+            android:background="@drawable/ic_close_red" />
+
+        <Button
+            android:id="@+id/btnOk"
+            style="@style/button_default"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_alignParentBottom="true"
+            android:text="OK"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ivInfoBig"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_background_info" />
+
+        <ImageView
+            android:id="@+id/ivInfoLogo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_info"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

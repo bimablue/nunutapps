@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/separator_margin">
+
+    <TextView
+        android:id="@+id/tvLabel"
+        android:layout_width="0dp"
+        android:layout_weight="90"
+        android:layout_height="30dp"
+        android:fontFamily="@string/custom_font_family"
+        android:gravity="center_vertical"
+        android:text="Alphabet A-Z"/>
+
+    <ImageView
+        android:id="@+id/ivStatus"
+        android:layout_width="0dp"
+        android:layout_weight="10"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_checked"/>
+
+</LinearLayout>

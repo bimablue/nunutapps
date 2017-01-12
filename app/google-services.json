@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "30320618891",
+    "firebase_url": "https://nunutapp-f82a0.firebaseio.com",
+    "project_id": "nunutapp-f82a0",
+    "storage_bucket": "nunutapp-f82a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30320618891:android:8a85923511450c49",
+        "android_client_info": {
+          "package_name": "com.blackbeltcoder.nunut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30320618891-9u3sqrs1tit2sjph0o0rhr3ke0l182d5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blackbeltcoder.nunut",
+            "certificate_hash": "287ADCD219EC220061A5D99088131EC52338E076"
+          }
+        },
+        {
+          "client_id": "30320618891-7mep0knoepbiu3736ipipnktpn44jn29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtZPMFrZGmL5c_yCVeps7mAicchyz12gA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30320618891-7mep0knoepbiu3736ipipnktpn44jn29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

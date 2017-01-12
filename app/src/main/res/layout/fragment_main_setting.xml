@@ -1,0 +1,134 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.blackbeltcoder.nunut.app.MainSettingFragment">
+
+    <LinearLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvAccountLabel"
+                    style="@style/txt_20_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/label_account" />
+
+                <ImageView
+                    android:id="@+id/ivEditAccount"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_edit"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/separator_margin"
+                android:background="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/separator_margin"
+                android:orientation="horizontal">
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvEmailLabel"
+                    style="@style/txt_18_primary"
+                    android:layout_width="0dp"
+                    android:layout_weight="35"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    app:textStyle="light"
+                    android:text="@string/label_email" />
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvEmailValue"
+                    style="@style/txt_18_lgrey"
+                    android:layout_width="0dp"
+                    android:layout_weight="65"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="ashar.ahimsa@gmail.com" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/separator_margin"
+                android:orientation="horizontal">
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvPhoneLabel"
+                    style="@style/txt_18_primary"
+                    android:layout_width="0dp"
+                    android:layout_weight="35"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    app:textStyle="light"
+                    android:text="@string/label_phone" />
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvPhoneValue"
+                    style="@style/txt_18_lgrey"
+                    android:layout_width="0dp"
+                    android:layout_weight="65"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="085643611937" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp">
+
+            <com.blackbeltcoder.nunut.component.CustomTextView
+                android:id="@+id/tvContactLabel"
+                style="@style/txt_20_primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="@string/label_contact" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/separator_margin"
+                android:background="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

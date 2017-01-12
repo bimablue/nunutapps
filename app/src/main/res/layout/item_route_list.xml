@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvLayout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_margin="@dimen/separator_margin">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="55"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/separator_margin">
+
+                <ImageView
+                    android:id="@+id/ivTitle1"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_start_point"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"/>
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvTitle1"
+                    style="@style/txt_18_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/ivTitle1"
+                    android:layout_alignTop="@+id/ivTitle1"
+                    android:layout_marginLeft="@dimen/separator_margin"
+                    android:layout_marginTop="-6dp"
+                    android:maxLines="2"
+                    app:textStyle="bold"
+                    android:text="Kelapa Gading" />
+
+                <ImageView
+                    android:id="@+id/ivTitle2"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_end_point"
+                    android:layout_below="@+id/ivTitle1"
+                    android:layout_alignLeft="@+id/ivTitle1"
+                    android:layout_marginTop="40dp"/>
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvTitle2"
+                    style="@style/txt_18_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/ivTitle2"
+                    android:layout_alignTop="@+id/ivTitle2"
+                    android:layout_marginLeft="@dimen/separator_margin"
+                    android:layout_marginTop="-6dp"
+                    android:maxLines="2"
+                    app:textStyle="bold"
+                    android:text="Menteng" />
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/ivTitle1"
+                    android:layout_alignLeft="@+id/ivTitle1"
+                    android:layout_marginLeft="6dp"
+                    android:background="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/separator_margin">
+
+                    <ImageView
+                        android:id="@+id/ivShareFacebook"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:src="@drawable/ic_facebook"/>
+
+                    <ImageView
+                        android:id="@+id/ivShareTwitter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:clickable="true"
+                        android:src="@drawable/ic_twitter"/>
+
+                    <ImageView
+                        android:id="@+id/ivShareMail"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:clickable="true"
+                        android:src="@drawable/ic_gmail"/>
+
+                    <ImageView
+                        android:id="@+id/ivShareWhatsapp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:clickable="true"
+                        android:src="@drawable/ic_whatsapp"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="45"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/separator_margin"
+                android:paddingBottom="@dimen/separator_margin">
+
+                <com.github.lzyzsd.circleprogress.ArcProgress
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/apVote"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="@dimen/separator_margin"
+                    app:arc_unfinished_color="@android:color/darker_gray"
+                    app:arc_text_color="@color/colorPrimary"
+                    app:arc_bottom_text=""
+                    app:arc_bottom_text_size="14dp"/>
+
+                <com.blackbeltcoder.nunut.component.CustomTextView
+                    android:id="@+id/tvVoteLabel"
+                    style="@style/txt_16_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:text="110 - 500 votes" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#356286</color>
+    <color name="colorPrimaryDark">#1C415F</color>
+    <color name="colorAccent">#1C415F</color>
+    <color name="colorAccentTrans">#801C415F</color>
+    <color name="colorModalBackground">#f0f1f2</color>
+    <color name="colorTextGrey">#333333</color>
+    <color name="colorTextLightGrey">#999999</color>
+    <color name="colorBackgroundGrey">#ececec</color>
+    <color name="colorButton">#55acee</color>
+
+    <color name="colorProgressRed">#f44336</color>
+    <color name="colorProgressYellow">#ffeb3b</color>
+    <color name="colorProgressGreen">#8bc34a</color>
+</resources>

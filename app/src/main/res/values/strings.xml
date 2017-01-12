@@ -1,0 +1,92 @@
+<resources>
+    <string name="app_name">Nunut</string>
+    <string name="facebook_app_id">1892573057631635</string>
+    <string name="custom_font_family">monospace</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- NAVIGATION LABEL -->
+    <string name="nav_register">Register</string>
+    <string name="nav_route">Route</string>
+    <string name="nav_share">Share</string>
+    <string name="nav_setting">Setting</string>
+
+    <!-- FORM LABEL -->
+    <string name="label_button_filter">Filter</string>
+    <string name="label_title_sort_criteria">Sort Criteria</string>
+    <string name="label_home">Home *</string>
+    <string name="label_postal_code">Area Code *</string>
+    <string name="label_office">Office *</string>
+    <string name="label_balance">Balance</string>
+    <string name="label_account">Account</string>
+    <string name="label_email">Email *</string>
+    <string name="label_phone">Phone *</string>
+    <string name="label_contact">Contact Us</string>
+
+    <!-- PROMPT LABEL -->
+    <string name="prompt_search_route">input keyword...</string>
+    <string name="prompt_home_address">address..</string>
+    <string name="prompt_home_postal">home postal...</string>
+    <string name="prompt_office_address">address..</string>
+    <string name="prompt_office_postal">office postal...</string>
+    <string name="prompt_email">email...</string>
+    <string name="prompt_phone">phone number...</string>
+
+    <!-- ARRAY LABEL -->
+    <string-array name="route_sort_criteria">
+        <item>Alphabet A-Z</item>
+        <item>Alphabet Z-A</item>
+        <item>Lowest Vote</item>
+        <item>Highest Vote</item>
+    </string-array>
+
+    <string-array name="area_code">
+        <item>Kelapa Gading Barat</item>
+        <item>Kelapa Gading Timur</item>
+        <item>Sunter</item>
+        <item>Pulogadung</item>
+        <item>Pulomas</item>
+        <item>Pasar Senen</item>
+        <item>Pasar Rebo</item>
+        <item>Pasar Minggu</item>
+        ...
+    </string-array>
+
+    <array name="array_dot_active">
+        <item>@color/colorAccent</item>
+        <item>@color/colorAccent</item>
+        <item>@color/colorAccent</item>
+        <item>@color/colorAccent</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/colorAccentTrans</item>
+        <item>@color/colorAccentTrans</item>
+        <item>@color/colorAccentTrans</item>
+        <item>@color/colorAccentTrans</item>
+    </array>
+
+    <!-- MESSAGE LABEL -->
+    <string name="msg_quote">pergi dijemput, pulang diantar</string>
+    <string name="msg_account_exist">already have an account?</string>
+    <string name="msg_loading_data">:: loading is in progress ::</string>
+    <string name="msg_congratulation">Congratulations!</string>
+    <string name="msg_new_route">You are creating new route</string>
+    <string name="msg_created_route">Your route has been created</string>
+    <string name="msg_share_route">Share this to gain vote from your friend to be open route</string>
+    <string name="msg_share_route_2">Your route will be opened by Nunut if many people had just voted to yours</string>
+    <string name="msg_share_code">Share your referral code now and get free balance</string>
+    <string name="msg_submit_address_1">Submit your home and office</string>
+    <string name="msg_submit_address_2">location to be our route</string>
+    <string name="msg_submit_contact">Enter your email and phone number so we can contact you when this route is being opened</string>
+    <string name="msg_register_first">Register your route now and share it to your friends or family</string>
+    <string name="msg_install_first">Install the selected application first, before share your route</string>
+    <string name="msg_mandatory">Fill all mandatory field before proceed</string>
+    <string name="msg_login_notes">Use your email address and phone number for login authentication</string>
+    <string name="msg_login_failed">Login is failed. Wrong email or phone number</string>
+    <string name="msg_register_failed">Registration is failed. email already exist</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_welcome_screen">WelcomeScreenActivity</string>
+</resources>

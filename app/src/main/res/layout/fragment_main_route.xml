@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.blackbeltcoder.nunut.app.MainRouteFragment">
+
+    <LinearLayout
+        android:id="@+id/layoutLoadingData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <com.crystal.crystalpreloaders.widgets.CrystalPreloader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:crs_pl_style="tornado_circle_2"
+            app:crs_pl_size="medium"
+            app:crs_pl_fg_color="@color/colorAccentTrans"
+            app:crs_pl_bg_color="@color/colorAccentTrans"/>
+
+        <com.blackbeltcoder.nunut.component.CustomTextView
+            style="@style/txt_16_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            app:textStyle="light_italic"
+            android:text="@string/msg_loading_data" />
+
+    </LinearLayout>
+
+    <com.cjj.MaterialRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/refreshLayout"
+        app:overlay="true"
+        app:wave_show="true"
+        app:wave_color="#90ffffff"
+        app:progress_colors="@array/material_colors"
+        app:wave_height_type="higher"
+        app:isLoadMore="false">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:paddingTop="60dp"
+            android:clipToPadding="false" />
+
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:id="@+id/floatingSearchView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:floatingSearch_searchBarMarginLeft="@dimen/separator_margin"
+            app:floatingSearch_searchBarMarginTop="@dimen/separator_margin"
+            app:floatingSearch_searchBarMarginRight="@dimen/separator_margin"
+            app:floatingSearch_searchHint="@string/prompt_search_route"
+            app:floatingSearch_suggestionsListAnimDuration="250"
+            app:floatingSearch_showSearchKey="false"
+            app:floatingSearch_leftActionMode="showSearch"
+            app:floatingSearch_menu="@menu/menu_sort"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+
+    </com.cjj.MaterialRefreshLayout>
+
+</RelativeLayout>
