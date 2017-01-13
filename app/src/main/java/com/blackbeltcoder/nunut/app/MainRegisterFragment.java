@@ -34,9 +34,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -62,18 +68,20 @@ public class MainRegisterFragment extends Fragment {
     private CustomInfoDialog dialogInfo, dialogWarning;
     private CustomProgressDialog dialogProgress;
 
-    private DatabaseReference mDB;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference firebaseDb;
+    private DatabaseReference areaCodeRef;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ArrayList<String> areaCodes;
+    private ArrayAdapter<String> adapterAreaCode;
     private NuterModel nm;
     private RouteModel rmGlobal;
     private App app;
 
     private OnFragmentInteractionListener mListener;
-
-    private FirebaseAuth auth;
 
     public MainRegisterFragment() {
         // Required empty public constructor
@@ -118,8 +126,60 @@ public class MainRegisterFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main_register, container, false);
 
         app = (App) getActivity().getApplicationContext();
-        auth = FirebaseAuth.getInstance();
-        mDB= FirebaseDatabase.getInstance().getReference();
+
+        /*
+        * FIREBASE
+        * */
+        firebaseDb = FirebaseDatabase.getInstance().getReference();
+
+        areaCodes = new ArrayList<String>();
+        areaCodeRef = firebaseDb.child(ConstantVariable.FIREBASEDB_AREA_CODE);
+        Query qAreaCodeRef = areaCodeRef.orderByChild("areaName");
+        qAreaCodeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+                    HashMap<String, Object> obj = (HashMap<String, Object>) postSnapshot.getValue();
+                    areaCodes.add("(" + obj.get("postalCode").toString() + ") " + obj.get("areaName").toString());
+
+                    //Log.d("fb","String get: " + obj.get("areaName"));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*areaCodeRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d("Added",dataSnapshot.getValue(ListItemModel.class).toString());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d("Changed",dataSnapshot.getValue(ListItemModel.class).toString());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("Removed",dataSnapshot.getValue(ListItemModel.class).toString());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.d("Moved",dataSnapshot.getValue(ListItemModel.class).toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("Cancelled",databaseError.toString());
+            }
+        });*/
 
         fragmentContainer = (LinearLayout) rootView.findViewById(R.id.fragmentContainer);
         etHidden = (EditText) rootView.findViewById(R.id.etHidden);
@@ -132,10 +192,6 @@ public class MainRegisterFragment extends Fragment {
         switchIsDriver = (Switch) rootView.findViewById(R.id.switchIsDriver);
 
         btnNext = (Button) rootView.findViewById(R.id.btnNext);
-
-        etHidden.requestFocus();
-
-        loadObject();
 
         dialogInfo = new CustomInfoDialog(getActivity(),
                 ConstantVariable.TITLE_INFO,
@@ -159,6 +215,8 @@ public class MainRegisterFragment extends Fragment {
 
         dialogProgress = new CustomProgressDialog(getActivity());
 
+        loadObject();
+
         return rootView;
     }
 
@@ -167,9 +225,9 @@ public class MainRegisterFragment extends Fragment {
 
         if(nm != null){
             etHomeAddress.setText(nm.homeAddress);
-            etHomePostal.setText(nm.homePostal);
+            etHomePostal.setText("(" + nm.homePostal + ") " + nm.homeArea);
             etOfficeAddress.setText(nm.officeAddress);
-            etOfficePostal.setText(nm.officePostal);
+            etOfficePostal.setText("(" + nm.officePostal + ") " + nm.officeArea);
 
             if(nm.isDriver.equals("Y"))
                 switchIsDriver.setChecked(true);
@@ -196,54 +254,69 @@ public class MainRegisterFragment extends Fragment {
         tvAccountExist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Hashtable<String, String> param = new Hashtable<String, String>();
-            //param.put("title", "Information");
-            new CustomFormDialog(getActivity(), param
-                    , new CustomFormDialog.OnResultFormDialogListener() {
+                Hashtable<String, String> param = new Hashtable<String, String>();
+                new CustomFormDialog(getActivity(), param
+                        , new CustomFormDialog.OnResultFormDialogListener() {
 
-                @Override
-                public void OnResultFormDialog(String email, String phone) {
-                    // TODO Auto-generated method stub
-                    NuterModel nmObj = new NuterModel();
-                    nmObj.email = email;
-                    nmObj.phone = phone;
+                    @Override
+                    public void OnResultFormDialog(String email, String password) {
+                        // TODO Auto-generated method stub
+                        dialogProgress.show();
 
-                    //dialogProgress.show();
+                        /*
+                        * REST
+                        * */
+                        /*
+                        NuterModel nmObj = new NuterModel();
+                        nmObj.email = email;
+                        nmObj.phone = phone;
 
-                    /*Intent intent = new Intent(getActivity().getApplicationContext(), RestService.class);
-                    intent.putExtra(ConstantVariable.BROADCAST_KEY, ConstantVariable.BROADCAST_KEY_LOGIN);
-                    intent.putExtra(ConstantVariable.BROADCAST_OBJ, nmObj);
-                    getActivity().startService(intent);
-                    dialogProgress.show();*/
+                        Intent intent = new Intent(getActivity().getApplicationContext(), RestService.class);
+                        intent.putExtra(ConstantVariable.BROADCAST_KEY, ConstantVariable.BROADCAST_KEY_LOGIN);
+                        intent.putExtra(ConstantVariable.BROADCAST_OBJ, nmObj);
+                        getActivity().startService(intent);
+                        */
 
-                    auth.createUserWithEmailAndPassword(email, "Ainozen0210")
-                            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    dialogProgress.dismiss();
-                                    if (!task.isSuccessful()) {
-                                        dialogWarning.show();
-                                    } else {
-                                        dialogInfo.show();
+                        /*
+                        * FIREBASE
+                        * */
+                        firebaseAuth = FirebaseAuth.getInstance();
+                        firebaseAuth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(dialogProgress.isShowing())
+                                            dialogProgress.dismiss();
+
+                                        if (!task.isSuccessful()) {
+                                            dialogInfo.show();
+                                        } else {
+                                            mListener.onFragmentInteraction(3);
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                    /*ListItemModel listItem = new ListItemModel(email);
-                    Map<String, Object> listItemValues = listItem.toMap();
-                    Map<String, Object> childUpdates = new HashMap<>();
-                    childUpdates.put("/listItem/" + key, listItemValues);
-                    mDB.updateChildren(childUpdates);*/
-                }
-            }).show();
+                        /*firebaseAuth.createUserWithEmailAndPassword(email, "Ainozen0210")
+                                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        dialogProgress.dismiss();
+                                        if (!task.isSuccessful()) {
+                                            dialogWarning.show();
+                                        } else {
+                                            dialogInfo.show();
+                                        }
+                                    }
+                                });*/
+
+                    }
+                }).show();
             }
         });
 
-        String[] areas = getResources().getStringArray(R.array.area_code);
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, areas);
-        etHomePostal.setAdapter(adapter);
-        etOfficePostal.setAdapter(adapter);
+        adapterAreaCode = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, areaCodes);
+        etHomePostal.setAdapter(adapterAreaCode);
+        etOfficePostal.setAdapter(adapterAreaCode);
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,10 +325,13 @@ public class MainRegisterFragment extends Fragment {
                     rmGlobal = new RouteModel();
                     rmGlobal.postalOrigin = nm.homePostal;
                     rmGlobal.postalDestination = nm.officePostal;
-                    rmGlobal.originArea = nm.homePostal;
-                    rmGlobal.destinationArea = nm.officePostal;
+                    rmGlobal.nameOrigin = nm.homeArea;
+                    rmGlobal.nameDestination = nm.officeArea;
                     rmGlobal.vote = 1l;
 
+                    /*
+                    * REST
+                    * */
                     /*Intent intent = new Intent(getActivity().getApplicationContext(), RestService.class);
                     intent.putExtra(ConstantVariable.BROADCAST_KEY, ConstantVariable.BROADCAST_KEY_CHECK);
                     intent.putExtra(ConstantVariable.BROADCAST_OBJ, rmGlobal);
@@ -263,24 +339,36 @@ public class MainRegisterFragment extends Fragment {
                     getActivity().startService(intent);
                     dialogProgress.show();*/
 
+                    /*
+                    * FIREBASE
+                    * */
+
+
                     mListener.onFragmentInteraction(rmGlobal);
                 }
             }
         });
+
+        etHidden.requestFocus();
     }
 
     private boolean saveObject(){
         String homeAddress = etHomeAddress.getText().toString();
-        String homePostal = etHomePostal.getText().toString();
+        String[] homePostal = etHomePostal.getText().toString().replace("(", "").replace(")", "#").split("#");
         String officeAddress = etOfficeAddress.getText().toString();
-        String officePostal = etOfficePostal.getText().toString();
+        String[] officePostal = etOfficePostal.getText().toString().replace("(", "").replace(")", "#").split("#");
 
-        if(StringUtil.isNotNull(homeAddress) && StringUtil.isNotNull(homePostal)
-                && StringUtil.isNotNull(officeAddress) && StringUtil.isNotNull(officePostal)){
+        if(StringUtil.isNotNull(homeAddress) && StringUtil.isNotNull(homePostal[0])
+                && StringUtil.isNotNull(officeAddress) && StringUtil.isNotNull(officePostal[0])){
             nm.homeAddress = homeAddress;
-            nm.homePostal = homePostal;
+            nm.homePostal = homePostal[0];
+            nm.homeArea = homePostal[1];
             nm.officeAddress = officeAddress;
-            nm.officePostal = officePostal;
+            nm.officePostal = officePostal[0];
+            nm.officeArea = officePostal[1];
+            nm.serverKey = "";
+            nm.balance = 0l;
+            nm.referralCode = "";
 
             if(switchIsDriver.isChecked())
                 nm.isDriver = "Y";
@@ -294,6 +382,18 @@ public class MainRegisterFragment extends Fragment {
             dialogWarning.show();
 
             return false;
+        }
+    }
+
+    public void refreshField(String fieldName, String fieldValue) {
+        if (fragmentContainer != null) {
+            if(fieldName.equals("HOME")){
+                etHomeAddress.setText(fieldValue);
+            } else if(fieldName.equals("OFFICE")){
+                etOfficeAddress.setText(fieldValue);
+            }
+
+            etHidden.requestFocus();
         }
     }
 
@@ -318,7 +418,6 @@ public class MainRegisterFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
             String status = intent.getStringExtra(ConstantVariable.BROADCAST_STATUS);
-            //Log.d("receiver", "Got message: " + status);
 
             if (status != null) {
                 dialogProgress.dismiss();
@@ -337,7 +436,6 @@ public class MainRegisterFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
             String status = intent.getStringExtra(ConstantVariable.BROADCAST_STATUS);
-            //Log.d("receiver", "Got message: " + status);
 
             if (status != null) {
                 dialogProgress.dismiss();
@@ -353,18 +451,6 @@ public class MainRegisterFragment extends Fragment {
             }
         }
     };
-
-    public void refreshField(String fieldName, String fieldValue) {
-        if (fragmentContainer != null) {
-            if(fieldName.equals("HOME")){
-                etHomeAddress.setText(fieldValue);
-            } else if(fieldName.equals("OFFICE")){
-                etOfficeAddress.setText(fieldValue);
-            }
-
-            etHidden.requestFocus();
-        }
-    }
 
     /**
      * Called when a fragment will be displayed
@@ -426,5 +512,6 @@ public class MainRegisterFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(RouteModel rm);
         void getAddressFromMaps(String fieldName);
+        void onFragmentInteraction(int pageMode);
     }
 }

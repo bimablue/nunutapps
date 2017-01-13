@@ -16,7 +16,11 @@ import android.widget.LinearLayout;
 
 import com.blackbeltcoder.nunut.R;
 import com.blackbeltcoder.nunut.component.CustomInfoDialog;
+import com.blackbeltcoder.nunut.component.CustomTextView;
+import com.blackbeltcoder.nunut.global.App;
 import com.blackbeltcoder.nunut.global.ConstantVariable;
+import com.blackbeltcoder.nunut.model.NuterModel;
+import com.blackbeltcoder.nunut.util.StringUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +37,11 @@ public class MainShareFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private LinearLayout fragmentContainer;
+    private CustomTextView tvBalanceValue, tvRefCode;
     private ImageView ivShareFacebook, ivShareTwitter, ivShareMail, ivShareWhatsapp;
     private CustomInfoDialog dialogWarning;
+
+    private NuterModel nmGlobal;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -79,14 +86,16 @@ public class MainShareFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main_share, container, false);
 
+        nmGlobal = App.getNuter();
+
         fragmentContainer = (LinearLayout) rootView.findViewById(R.id.fragmentContainer);
 
+        tvBalanceValue = (CustomTextView) rootView.findViewById(R.id.tvBalanceValue);
+        tvRefCode = (CustomTextView) rootView.findViewById(R.id.tvRefCode);
         ivShareFacebook = (ImageView) rootView.findViewById(R.id.ivShareFacebook);
         ivShareTwitter = (ImageView) rootView.findViewById(R.id.ivShareTwitter);
         ivShareMail = (ImageView) rootView.findViewById(R.id.ivShareMail);
         ivShareWhatsapp = (ImageView) rootView.findViewById(R.id.ivShareWhatsapp);
-
-        loadObject();
 
         dialogWarning = new CustomInfoDialog(getActivity(),
                 ConstantVariable.TITLE_WARNING,
@@ -97,6 +106,8 @@ public class MainShareFragment extends Fragment {
                         dialogWarning.dismiss();
                     }
                 });
+
+        loadObject();
 
         return rootView;
     }
@@ -181,6 +192,15 @@ public class MainShareFragment extends Fragment {
                 }
             }
         });
+
+        refreshUI();
+    }
+
+    public void refreshUI() {
+        if(nmGlobal != null) {
+            tvBalanceValue.setText(StringUtil.priceFormat(nmGlobal.balance, 1));
+            tvRefCode.setText(nmGlobal.referralCode);
+        }
     }
 
     private boolean appInstalledOrNot(String uri) {
@@ -204,6 +224,9 @@ public class MainShareFragment extends Fragment {
         if (fragmentContainer != null) {
             Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
             fragmentContainer.startAnimation(fadeIn);
+
+            nmGlobal = App.getNuter();
+            refreshUI();
         }
     }
 

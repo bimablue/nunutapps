@@ -74,9 +74,9 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
         }
 
         public void bind(final RouteModel item, final OnItemClickListener listener) {
-            tvTitle1.setText(item.originArea);
-            tvTitle2.setText(item.destinationArea);
-            tvVoteLabel.setText(String.valueOf(item.vote) + " of 500 votes");
+            tvTitle1.setText(item.nameOrigin);
+            tvTitle2.setText(item.nameDestination);
+            tvVoteLabel.setText(String.valueOf(item.vote) + " of " + String.valueOf(ConstantVariable.VOTE_MAX_DEFAULT) + " votes");
 
             int voteVal = (int) (item.vote * 100) / 500;
             apVote.setProgress(voteVal);

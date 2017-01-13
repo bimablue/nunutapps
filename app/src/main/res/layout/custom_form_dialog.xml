@@ -51,15 +51,15 @@
             android:ems="10" />
 
         <EditText
-            android:id="@+id/etPhoneValue"
+            android:id="@+id/etPasswordValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_phone"
+            android:drawableLeft="@drawable/ic_password"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_below="@+id/etEmailValue"
-            android:hint="@string/prompt_phone"
-            android:inputType="number"
+            android:inputType="textPassword"
+            android:hint="@string/prompt_password"
             android:maxLength="15"
             android:maxLines="1"
             android:ems="10" />

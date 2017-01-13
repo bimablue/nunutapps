@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 
 import com.blackbeltcoder.nunut.model.NuterModel;
+import com.blackbeltcoder.nunut.model.RouteModel;
 import com.blackbeltcoder.nunut.util.ConverterUtil;
 
 import org.json.JSONObject;
@@ -55,6 +56,24 @@ public class App extends Application {
             String nmString = secPref.getString("CurrentNuter", "");
             if(!nmString.equals(""))
                 return ConverterUtil.JSONtoObject(NuterModel.class, new JSONObject(nmString));
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setNuterRoute(RouteModel rm) {
+        JSONObject nuterRouteJson = ConverterUtil.ObjecttoJSON(rm);
+        secPref.put("CurrentNuterRoute", nuterRouteJson.toString());
+    }
+
+    public static RouteModel getNuterRoute() {
+        try {
+            String rmString = secPref.getString("CurrentNuterRoute", "");
+            if(!rmString.equals(""))
+                return ConverterUtil.JSONtoObject(RouteModel.class, new JSONObject(rmString));
             else
                 return null;
         } catch (Exception e) {

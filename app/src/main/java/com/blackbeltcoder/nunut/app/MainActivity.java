@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements
         MainRegisterRouteCheckFragment.OnFragmentInteractionListener,
         MainRegisterSuccessFragment.OnFragmentInteractionListener {
 
+    private App app;
     private Vibrator vb;
     private RouteModel rmGlobal;
 
@@ -55,14 +56,24 @@ public class MainActivity extends AppCompatActivity implements
     private int currentPosition = -1;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private String fieldName = "";
+    private boolean alreadyLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        app = (App) getApplicationContext();
         vb = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         currentPosition = getIntent().getIntExtra("ACT_MODE", 0);
+
+        alreadyLogin = false;
+        if(App.getNuter() != null){
+            if(!App.getNuter().serverKey.equals("")){
+                alreadyLogin = true;
+                currentPosition = 6;
+            }
+        }
 
         dialogInfo = new CustomInfoDialog(MainActivity.this,
                 ConstantVariable.TITLE_INFO,
@@ -122,44 +133,49 @@ public class MainActivity extends AppCompatActivity implements
         bottomNavigation.setColored(true);
         bottomNavigation.setTitleTextSize(28, 25);
         bottomNavigation.setTitleTypeface(Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf"));
-
         bottomNavigation.setCurrentItem(currentPosition);
-
         bottomNavigation.setNotification("", 1);
-
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
 
                 if (wasSelected) {
                     if(position == 0){
-                        if(currentPosition == 0)
-                            registerFragment = (MainRegisterFragment) mainViewAdapter.getCurrentFragment();
-                        //registerFragment.refresh();
+                        if(alreadyLogin){
+                            registerSuccessFragment = (MainRegisterSuccessFragment) mainViewAdapter.getCurrentFragment();
+                        } else {
+                            if (currentPosition == 0)
+                                registerFragment = (MainRegisterFragment) mainViewAdapter.getCurrentFragment();
+                            //registerFragment.refreshUI();
+                        }
                     } else if(position == 1){
                         routeFragment = (MainRouteFragment) mainViewAdapter.getCurrentFragment();
                         routeFragment.refresh();
                     } else if(position == 2){
                         shareFragment = (MainShareFragment) mainViewAdapter.getCurrentFragment();
-                        //shareFragment.refresh();
                     } else if(position == 3){
                         settingFragment = (MainSettingFragment) mainViewAdapter.getCurrentFragment();
-                        //settingFragment.refresh();
                     }
 
                     return true;
                 }
 
                 if (position == 0) {
-                    if(currentPosition == 0) {
-                        registerFragment = (MainRegisterFragment) mainViewAdapter.getItem(position);
-                        registerFragment.willBeHidden();
-                    } else if(currentPosition == 5) {
-                        registerRouteCheckFragment = (MainRegisterRouteCheckFragment) mainViewAdapter.getItem(position);
-                        registerRouteCheckFragment.willBeHidden();
-                    } else if(currentPosition == 6) {
+                    if(alreadyLogin) {
+                        position = 6;
                         registerSuccessFragment = (MainRegisterSuccessFragment) mainViewAdapter.getItem(position);
                         registerSuccessFragment.willBeHidden();
+                    } else {
+                        if (currentPosition == 0) {
+                            registerFragment = (MainRegisterFragment) mainViewAdapter.getItem(position);
+                            registerFragment.willBeHidden();
+                        } else if (currentPosition == 5) {
+                            registerRouteCheckFragment = (MainRegisterRouteCheckFragment) mainViewAdapter.getItem(position);
+                            registerRouteCheckFragment.willBeHidden();
+                        } else if (currentPosition == 6) {
+                            registerSuccessFragment = (MainRegisterSuccessFragment) mainViewAdapter.getItem(position);
+                            registerSuccessFragment.willBeHidden();
+                        }
                     }
                 } else if (position == 1) {
                     routeFragment = (MainRouteFragment) mainViewAdapter.getItem(position);
@@ -189,9 +205,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
 
                 currentPosition = position;
-
                 navigationViewPager.setCurrentItem(position, false);
-
                 showSelectedFragment(position);
 
                 return true;
@@ -208,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements
         navigationViewPager.setAdapter(mainViewAdapter);
 
         showSelectedFragment(currentPosition);
+        navigationViewPager.setCurrentItem(currentPosition, false);
     }
 
     private void showSelectedFragment(int position){
@@ -243,19 +258,19 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteraction(int pageMode) {
         int position = 0;
-        if(pageMode == 1){
+        if (pageMode == 1) {
             showSelectedFragment(0);
             position = 0;
-        } else if(pageMode == 2){
+        } else if (pageMode == 2) {
             showSelectedFragment(5);
             position = 5;
-        } else if(pageMode == 3){
+        } else if (pageMode == 3) {
+            alreadyLogin = true;
             showSelectedFragment(6);
             position = 6;
         }
 
         currentPosition = position;
-
         navigationViewPager.setCurrentItem(position, false);
     }
 

@@ -33,13 +33,18 @@ import com.blackbeltcoder.nunut.global.App;
 import com.blackbeltcoder.nunut.global.ConstantVariable;
 import com.blackbeltcoder.nunut.model.NuterModel;
 import com.blackbeltcoder.nunut.model.RouteModel;
-import com.blackbeltcoder.nunut.service.RestService;
 import com.blackbeltcoder.nunut.util.ConverterUtil;
 import com.blackbeltcoder.nunut.util.StringUtil;
 import com.github.lzyzsd.circleprogress.ArcProgress;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +67,10 @@ public class MainRegisterRouteCheckFragment extends Fragment {
     private Button btnPrev, btnNext;
     private CustomInfoDialog dialogWarning, dialogWarning2;
     private CustomProgressDialog dialogProgress;
+
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference firebaseDb;
+    private DatabaseReference areaCodeRef;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,6 +118,12 @@ public class MainRegisterRouteCheckFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main_register_route_check, container, false);
         app = (App) getActivity().getApplicationContext();
+        nm = App.getNuter();
+
+        /*
+        * FIREBASE
+        * */
+        firebaseDb = FirebaseDatabase.getInstance().getReference();
 
         fragmentContainer = (LinearLayout) rootView.findViewById(R.id.fragmentContainer);
 
@@ -123,10 +138,6 @@ public class MainRegisterRouteCheckFragment extends Fragment {
 
         btnPrev = (Button) rootView.findViewById(R.id.btnPrev);
         btnNext = (Button) rootView.findViewById(R.id.btnNext);
-
-        etHidden.requestFocus();
-
-        loadObject();
 
         dialogWarning = new CustomInfoDialog(getActivity(),
                 ConstantVariable.TITLE_WARNING,
@@ -150,12 +161,12 @@ public class MainRegisterRouteCheckFragment extends Fragment {
 
         dialogProgress = new CustomProgressDialog(getActivity());
 
+        loadObject();
+
         return rootView;
     }
 
     private void loadObject() {
-        nm = App.getNuter();
-
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,14 +178,45 @@ public class MainRegisterRouteCheckFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (saveObject()) {
-                    Intent intent = new Intent(getActivity().getApplicationContext(), RestService.class);
+                    /*
+                    * REST
+                    * */
+                    /*Intent intent = new Intent(getActivity().getApplicationContext(), RestService.class);
                     intent.putExtra(ConstantVariable.BROADCAST_KEY, ConstantVariable.BROADCAST_KEY_REGISTER);
                     intent.putExtra(ConstantVariable.BROADCAST_KEY_REGISTER_OBJ, nm);
                     intent.putExtra(ConstantVariable.BROADCAST_KEY_ROUTES_OBJ, rmGlobal);
                     getActivity().startService(intent);
+                    dialogProgress.show();*/
+
+                    /*
+                    * FIREBASE
+                    * */
                     dialogProgress.show();
+
+                    final String key = firebaseDb.child(ConstantVariable.FIREBASEDB_ROUTE).push().getKey();
+                    Map<String, Object> routeList = rmGlobal.toMap();
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put("/" + ConstantVariable.FIREBASEDB_ROUTE + "/" + key, routeList);
+                    firebaseDb.updateChildren(childUpdates);
+
+                    nm.routeServerKey = key;
+                    nm.joinDate = StringUtil.dateToString(new Date(), ConstantVariable.DATE_FORMAT);
+                    nm.referralCode = StringUtil.generateRandomCode(ConstantVariable.RANDOM_CHAR_LENGTH);
+                    nm.balance = ConstantVariable.BALANCE_DEFAULT;
+                    final String key2 = firebaseDb.child(ConstantVariable.FIREBASEDB_NUTER).push().getKey();
+                    Map<String, Object> nuterList = nm.toMap();
+                    childUpdates = new HashMap<>();
+                    childUpdates.put("/" + ConstantVariable.FIREBASEDB_NUTER + "/" + key2, nuterList);
+                    firebaseDb.updateChildren(childUpdates);
+
+                    nm.serverKey = key2;
+                    app.setNuter(nm);
+                    app.setNuterRoute(rmGlobal);
+
+                    dialogProgress.dismiss();
+
+                    mListener.onFragmentInteraction(3);
                 }
-                //mListener.onFragmentInteraction(3);
             }
         });
 
@@ -182,6 +224,26 @@ public class MainRegisterRouteCheckFragment extends Fragment {
         etPhoneValue.setText(tMgr.getLine1Number());
 
         etEmailValue.setText(getUsername());
+
+        etHidden.requestFocus();
+    }
+
+    private boolean saveObject(){
+        String emailVal = etEmailValue.getText().toString();
+        String phoneVal = etPhoneValue.getText().toString();
+
+        if(StringUtil.isNotNull(emailVal) && StringUtil.isNotNull(phoneVal)){
+            nm.email = emailVal;
+            nm.phone = phoneVal;
+
+            app.setNuter(nm);
+
+            return true;
+        } else {
+            dialogWarning.show();
+
+            return false;
+        }
     }
 
     public String getUsername() {
@@ -231,24 +293,6 @@ public class MainRegisterRouteCheckFragment extends Fragment {
             }
         } else {
             return "test4";
-        }
-    }
-
-    private boolean saveObject(){
-        String emailVal = etEmailValue.getText().toString();
-        String phoneVal = etPhoneValue.getText().toString();
-
-        if(StringUtil.isNotNull(emailVal) && StringUtil.isNotNull(phoneVal)){
-            nm.email = emailVal;
-            nm.phone = phoneVal;
-
-            app.setNuter(nm);
-
-            return true;
-        } else {
-            dialogWarning.show();
-
-            return false;
         }
     }
 
@@ -311,16 +355,18 @@ public class MainRegisterRouteCheckFragment extends Fragment {
             Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
             fragmentContainer.startAnimation(fadeIn);
 
+            nm = App.getNuter();
+
             rmGlobal = rm;
 
             if(rm.id != null){
                 tvTitle1.setVisibility(View.GONE);
             }
 
-            tvRoute.setText(rm.originArea + " - " + rm.destinationArea);
-            tvVoteLabel.setText(rm.vote + " of 500 votes");
+            tvRoute.setText(rm.nameOrigin + " - " + rm.nameDestination);
+            tvVoteLabel.setText(rm.vote + " of " + String.valueOf(ConstantVariable.VOTE_MAX_DEFAULT) + " votes");
 
-            int voteVal = (int) (rm.vote * 100) / 500;
+            int voteVal = (int) (rm.vote * 100) / ConstantVariable.VOTE_MAX_DEFAULT;
             apVote.setProgress(voteVal);
 
             if(voteVal >= 0 && voteVal < 50){

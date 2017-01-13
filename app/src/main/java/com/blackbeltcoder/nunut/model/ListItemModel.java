@@ -1,6 +1,7 @@
 package com.blackbeltcoder.nunut.model;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Map;
  * Created by ainozenbook on 1/11/2017.
  */
 
+@IgnoreExtraProperties
 public class ListItemModel {
     public String listItemText;
     public String listItemCreationDate;

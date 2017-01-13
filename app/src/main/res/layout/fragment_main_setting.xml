@@ -32,14 +32,14 @@
                     android:layout_centerVertical="true"
                     android:text="@string/label_account" />
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/ivEditAccount"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_edit"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:clickable="true"/>
+                    android:clickable="true"/>-->
 
             </RelativeLayout>
 
@@ -105,7 +105,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -127,7 +127,7 @@
                 android:layout_marginTop="@dimen/separator_margin"
                 android:background="@color/colorPrimary"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
     </LinearLayout>
 

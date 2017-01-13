@@ -12,6 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.blackbeltcoder.nunut.R;
+import com.blackbeltcoder.nunut.component.CustomTextView;
+import com.blackbeltcoder.nunut.global.App;
+import com.blackbeltcoder.nunut.model.NuterModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +31,9 @@ public class MainSettingFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private LinearLayout fragmentContainer;
+    private CustomTextView tvEmailValue, tvPhoneValue;
+
+    private NuterModel nmGlobal;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -72,9 +78,26 @@ public class MainSettingFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main_setting, container, false);
 
+        nmGlobal = App.getNuter();
+
         fragmentContainer = (LinearLayout) rootView.findViewById(R.id.fragmentContainer);
+        tvEmailValue = (CustomTextView) rootView.findViewById(R.id.tvEmailValue);
+        tvPhoneValue = (CustomTextView) rootView.findViewById(R.id.tvPhoneValue);
+
+        loadObject();
 
         return rootView;
+    }
+
+    private void loadObject(){
+        refreshUI();
+    }
+
+    private void refreshUI(){
+        if(nmGlobal != null) {
+            tvEmailValue.setText(nmGlobal.email);
+            tvPhoneValue.setText(nmGlobal.phone);
+        }
     }
 
     /**
@@ -85,6 +108,9 @@ public class MainSettingFragment extends Fragment {
         if (fragmentContainer != null) {
             Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
             fragmentContainer.startAnimation(fadeIn);
+
+            nmGlobal = App.getNuter();
+            refreshUI();
         }
     }
 

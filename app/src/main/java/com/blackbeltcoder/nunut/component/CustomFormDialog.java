@@ -24,11 +24,11 @@ public class CustomFormDialog extends Dialog {
 
     private Activity a;
     private OnResultFormDialogListener onResultFormDialogListener;
-    private EditText etEmailValue, etPhoneValue;
+    private EditText etEmailValue, etPasswordValue;
     private Button btnClose, btnOk;
 
     public interface OnResultFormDialogListener {
-        public void OnResultFormDialog(String email, String phone);
+        public void OnResultFormDialog(String email, String password);
     }
 
     public CustomFormDialog(Activity a, Hashtable<String, String> param, OnResultFormDialogListener onResultFormDialogListener) {
@@ -47,7 +47,7 @@ public class CustomFormDialog extends Dialog {
         * INIT COMPONENT
         * */
         etEmailValue = (EditText) findViewById(R.id.etEmailValue);
-        etPhoneValue = (EditText) findViewById(R.id.etPhoneValue);
+        etPasswordValue = (EditText) findViewById(R.id.etPasswordValue);
         btnClose = (Button) findViewById(R.id.btnClose);
         btnOk = (Button) findViewById(R.id.btnOk);
 
@@ -67,10 +67,10 @@ public class CustomFormDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 String email = etEmailValue.getText().toString();
-                String phone = etPhoneValue.getText().toString();
+                String password = etPasswordValue.getText().toString();
 
-                if(StringUtil.isNotNull(email) && StringUtil.isNotNull(phone)){
-                    onResultFormDialogListener.OnResultFormDialog(email, phone);
+                if(StringUtil.isNotNull(email) && StringUtil.isNotNull(password)){
+                    onResultFormDialogListener.OnResultFormDialog(email, password);
                     dismiss();
                 }
             }

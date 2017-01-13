@@ -129,22 +129,20 @@ public class MainRouteFragment extends Fragment implements LoaderManager.LoaderC
         initSearchView(rootView);
         initRefreshView(rootView);
 
-        String routeStatus = App.secPref.getString("masterStatus", "C");
+        /*String routeStatus = App.secPref.getString("masterStatus", "C");
         if(routeStatus.equals("P")){
             layoutLoadingData.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.GONE);
-        } else {
+        } else {*/
             layoutLoadingData.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
-        }
+        //}
 
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        //Log.d(LOG_TAG, "onActivityCreated");
-
         getActivity().getSupportLoaderManager().initLoader(ConstantVariable.LOADER_ROUTE, null, this);
 
         super.onActivityCreated(savedInstanceState);
@@ -171,8 +169,6 @@ public class MainRouteFragment extends Fragment implements LoaderManager.LoaderC
                         }
                     }
                     floatingSearchView.swapSuggestions(results);
-                    //Log.d(TAG, "onSearchTextChanged() " + newQuery);
-
                     floatingSearchView.hideProgress();
                 }
             }
@@ -182,22 +178,17 @@ public class MainRouteFragment extends Fragment implements LoaderManager.LoaderC
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
                 mLastQuery = searchSuggestion.getBody();
-
-                //Log.d(TAG, "onSuggestionClicked() " + mLastQuery);
             }
 
             @Override
             public void onSearchAction(String query) {
                 mLastQuery = query;
-
-                //Log.d(TAG, "onSearchAction() " + query);
             }
         });
 
         floatingSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override
             public void onFocus() {
-                //Log.d(TAG, "onFocus()");
                 floatingSearchView.setSearchText(mLastQuery);
             }
 
@@ -205,7 +196,6 @@ public class MainRouteFragment extends Fragment implements LoaderManager.LoaderC
             public void onFocusCleared() {
                 mLastQuery = floatingSearchView.getQuery();
                 adapter.getFilter().filter(floatingSearchView.getQuery() + "#" + sortValueGlobal);
-                //Log.d(TAG, "onFocusCleared() " + floatingSearchView.getQuery());
             }
         });
 
@@ -290,63 +280,6 @@ public class MainRouteFragment extends Fragment implements LoaderManager.LoaderC
         });
     }
 
-    /*private List<RouteModel> refreshDataSet(){
-        List<RouteModel> rms = new ArrayList<RouteModel>();
-        boolean isNew = false;
-        if(adapter != null){
-            if(adapter.getItemCount() > 0)
-                rms = adapter.getAllItem();
-            else
-                isNew = true;
-        } else {
-            isNew = true;
-        }
-
-        if(isNew){
-            RouteModel rm = null;
-            Cursor c = getContext().getContentResolver().query(
-                    RouteContract.CONTENT_URI, null, null, null, "");
-
-            while(c.moveToNext()) {
-                rm = ConverterUtil.cursorToObject(RouteModel.class, c);
-                rms.add(rm);
-            }
-            c.close();
-        }
-
-        if(sortValueGlobal == 0l || sortValueGlobal == 1l) {
-            Comparator<RouteModel> comp = new Comparator<RouteModel>() {
-                @Override
-                public int compare(RouteModel routeModel, RouteModel t1) {
-                    return t1.nameOrigin.compareTo(routeModel.nameOrigin);
-                }
-            };
-            Collections.sort(rms, comp);
-
-            if(sortValueGlobal == 0l)
-                Collections.reverse(rms);
-        } else if(sortValueGlobal == 2l) {
-            Comparator<RouteModel> comp = new Comparator<RouteModel>() {
-                @Override
-                public int compare(RouteModel routeModel, RouteModel t1) {
-                    return t1.vote.compareTo(routeModel.vote);
-                }
-            };
-            Collections.sort(rms, comp);
-            Collections.reverse(rms);
-        } else if(sortValueGlobal == 3l) {
-            Comparator<RouteModel> comp = new Comparator<RouteModel>() {
-                @Override
-                public int compare(RouteModel routeModel, RouteModel t1) {
-                    return t1.vote.compareTo(routeModel.vote);
-                }
-            };
-            Collections.sort(rms, comp);
-        }
-
-        return rms;
-    }*/
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(getActivity(), RouteContract.CONTENT_URI, null, null, null, RouteContract.COLUMN_NAME_ORIGIN + " ASC");
@@ -355,23 +288,13 @@ public class MainRouteFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         List<RouteModel> rms = new ArrayList<RouteModel>();
-        RouteModel rm = new RouteModel();
+        RouteModel rm;
 
         if(data != null) {
             while (data.moveToNext()) {
                 rm = ConverterUtil.cursorToObject(RouteModel.class, data);
                 rms.add(rm);
             }
-        } else {
-            /*rm = new RouteModel();
-            rm.id = 1l;
-            rm.postalOrigin = "12420";
-            rm.nameOrigin = "Kelapa Gading";
-            rm.postalDestination = "13330";
-            rm.nameDestination = "Menteng";
-            rm.vote = 156l;
-
-            rms.add(rm);*/
         }
 
         if(rms.size() > 0){
@@ -382,7 +305,6 @@ public class MainRouteFragment extends Fragment implements LoaderManager.LoaderC
             layoutLoadingData.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.GONE);
         }
-
     }
 
     @Override

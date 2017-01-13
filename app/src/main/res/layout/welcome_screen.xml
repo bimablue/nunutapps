@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -18,7 +20,20 @@
         android:gravity="center"
         android:orientation="horizontal"></LinearLayout>
 
+    <com.blackbeltcoder.nunut.component.CustomTextView
+        android:id="@+id/tvAccountExist"
+        style="@style/txt_18_primary"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@+id/bottomLine"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        app:textStyle="bold"
+        android:clickable="true"
+        android:text="@string/msg_account_exist" />
+
     <View
+        android:id="@+id/bottomLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha=".5"

@@ -30,6 +30,7 @@
     <string name="prompt_office_postal">office postal...</string>
     <string name="prompt_email">email...</string>
     <string name="prompt_phone">phone number...</string>
+    <string name="prompt_password">password...</string>
 
     <!-- ARRAY LABEL -->
     <string-array name="route_sort_criteria">
@@ -81,7 +82,7 @@
     <string name="msg_register_first">Register your route now and share it to your friends or family</string>
     <string name="msg_install_first">Install the selected application first, before share your route</string>
     <string name="msg_mandatory">Fill all mandatory field before proceed</string>
-    <string name="msg_login_notes">Use your email address and phone number for login authentication</string>
+    <string name="msg_login_notes">Use your email address and password for login authentication</string>
     <string name="msg_login_failed">Login is failed. Wrong email or phone number</string>
     <string name="msg_register_failed">Registration is failed. email already exist</string>
 

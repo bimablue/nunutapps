@@ -1,13 +1,18 @@
 package com.blackbeltcoder.nunut.model;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ainozenbook on 10/30/2016.
  */
 
+@IgnoreExtraProperties
 public class RouteModel implements Serializable {
 
     @SerializedName("_id")
@@ -40,9 +45,20 @@ public class RouteModel implements Serializable {
     @SerializedName("isOpen")
     public String isOpen;
 
-    @SerializedName("originArea")
-    public String originArea;
+    @SerializedName("serverKey")
+    public String serverKey;
 
-    @SerializedName("destinationArea")
-    public String destinationArea;
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("postalOrigin", postalOrigin);
+        result.put("nameOrigin", nameOrigin);
+        result.put("postalDestination", postalDestination);
+        result.put("nameDestination", nameDestination);
+        result.put("vote", vote);
+        result.put("submitDate", submitDate);
+        result.put("submitBy", submitBy);
+        result.put("isOpen", isOpen);
+        return result;
+    }
 }

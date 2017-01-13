@@ -16,7 +16,9 @@ import android.widget.LinearLayout;
 import com.blackbeltcoder.nunut.R;
 import com.blackbeltcoder.nunut.component.CustomInfoDialog;
 import com.blackbeltcoder.nunut.component.CustomTextView;
+import com.blackbeltcoder.nunut.global.App;
 import com.blackbeltcoder.nunut.global.ConstantVariable;
+import com.blackbeltcoder.nunut.model.RouteModel;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
 /**
@@ -38,6 +40,8 @@ public class MainRegisterSuccessFragment extends Fragment {
     private ArcProgress apVote;
     private ImageView ivShareFacebook, ivShareTwitter, ivShareMail, ivShareWhatsapp;
     private CustomInfoDialog dialogWarning;
+
+    private RouteModel rmGlobal;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -82,6 +86,8 @@ public class MainRegisterSuccessFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main_register_success, container, false);
 
+        rmGlobal = App.getNuterRoute();
+
         fragmentContainer = (LinearLayout) rootView.findViewById(R.id.fragmentContainer);
 
         tvRoute = (CustomTextView) rootView.findViewById(R.id.tvRoute);
@@ -109,22 +115,23 @@ public class MainRegisterSuccessFragment extends Fragment {
     }
 
     private void loadObject(){
+        if(rmGlobal != null) {
+            tvRoute.setText(rmGlobal.nameOrigin + " - " + rmGlobal.nameDestination);
+            tvVoteLabel.setText(rmGlobal.vote + " of " + ConstantVariable.VOTE_MAX_DEFAULT + " votes");
 
-        tvRoute.setText("Kelapa Gading - Menteng");
-        tvVoteLabel.setText("10 of 500 votes");
+            int voteVal = (int) (rmGlobal.vote * 100) / ConstantVariable.VOTE_MAX_DEFAULT;
+            apVote.setProgress(voteVal);
 
-        int voteVal = (int) (10 * 100) / 500;
-        apVote.setProgress(voteVal);
-
-        if(voteVal >= 0 && voteVal < 50){
-            apVote.setFinishedStrokeColor(getActivity().getResources().getColor(R.color.colorProgressRed));
-            apVote.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-        } else if(voteVal >= 50 && voteVal < 70){
-            apVote.setFinishedStrokeColor(getActivity().getResources().getColor(R.color.colorProgressYellow));
-            apVote.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-        } else if(voteVal >= 70){
-            apVote.setFinishedStrokeColor(getActivity().getResources().getColor(R.color.colorProgressGreen));
-            apVote.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+            if (voteVal >= 0 && voteVal < 50) {
+                apVote.setFinishedStrokeColor(getActivity().getResources().getColor(R.color.colorProgressRed));
+                apVote.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+            } else if (voteVal >= 50 && voteVal < 70) {
+                apVote.setFinishedStrokeColor(getActivity().getResources().getColor(R.color.colorProgressYellow));
+                apVote.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+            } else if (voteVal >= 70) {
+                apVote.setFinishedStrokeColor(getActivity().getResources().getColor(R.color.colorProgressGreen));
+                apVote.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+            }
         }
 
         ivShareFacebook.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +247,9 @@ public class MainRegisterSuccessFragment extends Fragment {
         if (fragmentContainer != null) {
             Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
             fragmentContainer.startAnimation(fadeIn);
+
+            rmGlobal = App.getNuterRoute();
+            loadObject();
         }
     }
 

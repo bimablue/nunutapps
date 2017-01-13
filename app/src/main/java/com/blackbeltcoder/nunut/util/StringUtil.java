@@ -1,6 +1,8 @@
 package com.blackbeltcoder.nunut.util;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class StringUtil {
@@ -18,9 +20,9 @@ public class StringUtil {
         symbols = tmp.toString().toCharArray();
     }
 
-    private final Random random = new Random();
+    //private final Random random = new Random();
 
-    private char[] buf;
+    //private char[] buf;
 
     //Email Pattern
     /*
@@ -37,16 +39,21 @@ public class StringUtil {
  
     }*/
 
-    public static String priceFormat(Long price) {
-        DecimalFormat formatter = new DecimalFormat("###,###,###.##");
-        return formatter.format(price).replace(",", ".");
-    }
-
     public static boolean isNotNull(String txt){
         return txt!=null && txt.trim().length()>0 ? true: false;
     }
 
-    public void RandomString(int length) {
+    public static String dateToString(Date date, String format) {
+        SimpleDateFormat newDateFormat = new SimpleDateFormat(format);
+        newDateFormat.applyPattern(format);
+
+        if(date != null)
+            return newDateFormat.format(date);
+        else
+            return "-";
+    }
+
+    /*public void randomString(int length) {
         if (length < 1)
             throw new IllegalArgumentException("length < 1: " + length);
         buf = new char[length];
@@ -56,5 +63,31 @@ public class StringUtil {
         for (int idx = 0; idx < buf.length; ++idx)
             buf[idx] = symbols[random.nextInt(symbols.length)];
         return new String(buf);
+    }*/
+
+    public static String generateRandomCode(int length){
+        Random random = new Random();
+        char[] buf = new char[length];
+        for (int idx = 0; idx < buf.length; ++idx)
+            buf[idx] = symbols[random.nextInt(symbols.length)];
+        return new String(buf);
+    }
+
+    public static String priceFormat(Long price, int mode) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###.##");
+
+        if(mode == 0)
+            return formatter.format(price).replace(",", ".");
+        else if(mode == 1)
+            return "Rp " + formatter.format(price).replace(",", ".");
+        else if(mode == 2){
+            if(price > 1l){
+                return formatter.format(price).replace(",", ".") + " items";
+            } else {
+                return formatter.format(price).replace(",", ".") + " item";
+            }
+        }
+
+        return "";
     }
 }
