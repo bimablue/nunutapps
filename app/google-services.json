@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "30320618891-4l5l5eu7nkge69s0gmjha97da70jfdko.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blackbeltcoder.nunut",
+            "certificate_hash": "C156E6930FE2404221D89F631359AB3CEBC53418"
+          }
+        },
+        {
           "client_id": "30320618891-9u3sqrs1tit2sjph0o0rhr3ke0l182d5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
